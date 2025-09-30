@@ -1,0 +1,44 @@
+---
+import Header from "../components/Header.astro";
+import Sidebar from "../components/Sidebar.astro";
+import infos from "../pages/index.astro";
+
+let name = infos.username;
+---
+
+<!DOCTYPE html>
+<html>
+  <Header title="Form" />
+  <body>
+    <div class="content">
+      <Sidebar selectedItem="home" />
+      <nav class="main">
+        <div class="container">
+          <main class="fold-content-container">
+            <div class="fold-content">
+              <h1>Seja bem-vindo, {name}<br />Vamos começar?</h1>
+              <p class="lead">
+                <strong>O que esperar?</strong>
+                <br>
+                Você vai responder um formulário sobre um assunto específico, ajudando-nos em uma causa!
+              </p>
+            </div>
+            <div>
+              <form method="POST">
+                
+              </form>
+            </div>
+            <sub>Achou um erro?</sub>
+            <br>
+            <a href="mailto:gabriel_e_fagundes@estudante.sesisenai.org.br">Contate-nos</a>
+          </main>
+          <!-- DevOps & Cloud -->
+          <a href="/devops" class="projects-container"></a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+    <!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+  </body>
+</html>

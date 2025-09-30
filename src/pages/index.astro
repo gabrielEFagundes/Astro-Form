@@ -1,60 +1,71 @@
 ---
-import Header from "../components/Header.astro";
+import Header from '../components/Header.astro';
 import Sidebar from "../components/Sidebar.astro";
----
 
+export const prerender = false;
+
+export let infos = {};
+
+if(Astro.request.method === "POST"){
+  try{
+    const data = await Astro.request.formData();
+    infos = {
+      username: data.get("username"),
+      gender: data.get("gender")
+    };
+  }catch (error){
+    console.log(error.message);
+  }
+}
+// TODO: gotta use those infos to personalize the form (one for women & other for men)
+---
 
 <!DOCTYPE html>
 <html
 >
-  <Header title="Sam Bernstein" />
+  <Header title="Welcome" />
   <body>
     <div class="content">
-      <Sidebar selectedItem="home" />
+        <Sidebar selectedItem="devops" />
       <nav class="main">
         <div class="container">
-          <main class="fold-content-container">
-            <div class="fold-content">
-              <h1>Hi, I'm Sam.<br />I build things for the web.</h1>
-              <p class="lead">
-                Experienced backend developer and cloud architect. A proactive team member dedicated to continuous learning, problem-solving, and aiding teammates in achieving quicker outcomes.
-              </p>
-            </div>
-            <a href="mailto:sam@overview.co.il	" class="button w-button">Contact</a>
-          </main>
-          <!-- DevOps & Cloud -->
-          <a href="/devops" class="projects-container">
-            <div class="single-projects-category">
-              <div class="projects-category-image-container devops-img">
-                <img src="./assets/database.svg" loading="lazy" alt="" class="projects-category-image" />
-              </div>
-            </div>
-            <div class="single-projects-content">
-              <h4>DevOps &amp;&nbsp;Cloud</h4>
-              <div class="tech-tools-container">
-                <div class="mini-label-white gray-color">Technologies &amp; tools</div>
-                <div class="chips-container chips-container-small-width">
-                  <div class="single-chip small-chip">Terraform</div>
-                  <div class="single-chip small-chip">Azure</div>
-                  <div class="single-chip small-chip">AWS</div>
-                  <div class="single-chip small-chip">Docker</div>
-                  <div class="single-chip small-chip">Kubernetes</div>
-                  <div class="single-chip small-chip">GitLab CI/CD</div>
-                  <div class="single-chip small-chip">RKE</div>
-                  <div class="single-chip small-chip">Node.js</div>
-                  <div class="single-chip small-chip">RabbitMQ</div>
-                  <div class="single-chip small-chip">Linux</div>
-                  <div class="single-chip small-chip">Bash</div>
-                  <div class="single-chip small-chip">Grafana</div>
-                  <div class="single-chip small-chip">Prometheus</div>
+          <div class="back-nav-container">
+            <a href="/" class="back-nav-button w-inline-block"
+              ><img src="/assets/back.svg" loading="lazy" alt="" class="back-nav-img" />
+              <div>Back</div></a
+            >
+          </div>
+          <div class="content-container">
+            <h1>Bem-vindo!</h1>
+            <section class="items-container">
+                <div class="resouce-items">
+                  <form method="POST" class="forms" action="/login">
+                    <label for="username" class="form-label">Qual o seu nome completo?</label>
+                    <input type="text" name="username" placeholder="Seu nome completo..." class="form-input">
+                    <br><br>
+                    <p class="form-label">Qual o seu gênero?</p>
+                    <div class="form-radio">
+                      <div>
+                        <label for="man">Homem</label>
+                        <input type="radio" name="gender" value="man">
+                      </div>
+                      <div>
+                        <label for="woman">Mulher</label>
+                        <input type="radio" name="gender" value="woman">
+                      </div>
+                    </div>
+                    <button type="submit" class="form-button">
+                      <a href="/form" class="button-link w-inline-block">
+                      Começar formulário
+                      </a>
+                    </button>
+                  </form>
                 </div>
-              </div>
-            </div>
-          </a>
+            </section>
+          </div>
         </div>
-      </div>
-    </nav>
-  </div>
+      </nav>
+    </div>
 
     <!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
   </body>
