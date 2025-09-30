@@ -1,0 +1,79 @@
+---
+import Header from '../components/Header.astro';
+import Sidebar from "../components/Sidebar.astro";
+
+export const prerender = false;
+
+let infos = {};
+
+if(Astro.request.method === "POST"){
+  try{
+    const data = await Astro.request.formData();
+    infos = {
+      username: data.get("username"),
+      gender: data.get("gender")
+    };
+  }catch (error){
+    console.log(error.message);
+  }
+}
+
+console.log(infos);
+---
+
+<!DOCTYPE html>
+<html
+>
+  <Header title="Welcome" />
+  <body>
+    <div class="content">
+        <Sidebar selectedItem="devops" />
+      <nav class="main">
+        <div class="container">
+          <div class="back-nav-container">
+            <a href="/" class="back-nav-button w-inline-block"
+              ><img src="/assets/back.svg" loading="lazy" alt="" class="back-nav-img" />
+              <div>Back</div></a
+            >
+          </div>
+          <div class="content-container">
+            <h1>Bem-vindo!</h1>
+            <section class="items-container">
+                <div class="resouce-items">
+                  <form method="POST" class="forms" action="/login">
+                    <label for="username" class="form-label">Qual o seu nome completo?</label>
+                    <input type="text" name="username" placeholder="Seu nome completo..." class="form-input">
+                    <br><br>
+                    <p class="form-label">Qual o seu gênero?</p>
+                    <div class="form-radio">
+                      <div>
+                        <label for="man">Homem</label>
+                        <input type="radio" name="gender" value="man">
+                      </div>
+                      <div>
+                        <label for="woman">Mulher</label>
+                        <input type="radio" name="gender" value="woman">
+                      </div>
+                    </div>
+                    <button type="submit" class="form-button">
+                      <a ${
+                        if(infos.gender === 'man'){
+                          link.setAtttibute('href', '/form/man');
+                        }else{
+                          link.setAtttibute('href', '/form/woman');
+                        }
+                      }> <!-- solve this -->
+                      Começar formulário
+                      </a>
+                    </button>
+                  </form>
+                </div>
+            </section>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+  </body>
+</html>

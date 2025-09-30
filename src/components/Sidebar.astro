@@ -12,55 +12,9 @@ const { selectedItem } = Astro.props;
   class="sidebar w-nav"
 >
   <div class="nav-content">
-    <a href="/" class="w-nav-brand" aria-label="home">
-      <div class="niv-data">
-        <img
-          src="/assets/sam.jpg"
-          loading="eager"
-          alt="Profile picture"
-          class="niv-image"
-        />
-        <div>
-          <div class="label-white">Sam Bernstein</div>
-          <div class="label-gray">Software Engineer</div>
-        </div>
-      </div>
-    </a>
-
     <nav role="navigation" class="w-nav-menu">
       <a
-        href="/"
-        class={`nav-link-container w-inline-block ${
-          selectedItem === 'home' ? 'w--current' : ''
-        }`}
-      >
-        <img
-          src="/assets/home.svg"
-          loading="eager"
-          alt=""
-          class="nav-link-image"
-        />
-        <div>Home</div>
-      </a>
-      <a
-        href="/software-development"
-        class={`nav-link-container w-inline-block ${
-          selectedItem === 'software-development' ? 'w--current' : ''
-        }`}
-        aria-current={
-          selectedItem === 'software-development' ? 'page' : undefined
-        }
-      >
-        <img
-          src="/assets/code.svg"
-          loading="eager"
-          alt=""
-          class="nav-link-image"
-        />
-        <div>Software development</div>
-      </a>
-      <a
-        href="/devops"
+        href="/login"
         class={`nav-link-container w-inline-block ${
           selectedItem === 'devops' ? 'w--current' : ''
         }`}
@@ -71,39 +25,9 @@ const { selectedItem } = Astro.props;
           alt=""
           class="nav-link-image"
         />
-        <div>DevOps</div>
-      </a>
-      <a
-        href="/personal-projects"
-        class={`nav-link-container w-inline-block ${
-          selectedItem === 'personal-projects' ? 'w--current' : ''
-        }`}
-      >
-        <img
-          src="/assets/favorite.svg"
-          loading="eager"
-          alt=""
-          class="nav-link-image"
-        />
-        <div>Personal projects</div>
+        <div>Login</div>
       </a>
     </nav>
-
-    <div
-      class="navbar-icon-button w-nav-button"
-      style="-webkit-user-select: text;"
-      aria-label="menu"
-      role="button"
-      tabindex="0"
-    >
-      <img
-        src="/assets/menu.svg"
-        loading="eager"
-        alt=""
-        class="navbar-icon"
-      />
-    </div>
-  </div>
 
   <script>
     import { setupNav } from '../scripts/nav.js';

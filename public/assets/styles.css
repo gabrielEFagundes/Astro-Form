@@ -557,6 +557,45 @@ p {
   height: 82px;
 }
 
+.forms{
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.form-label{
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.form-input{
+  border-radius: 1rem;
+  border: none;
+  padding: 1rem;
+}
+
+.form-button{
+  border: none;
+  border-radius: 1rem;
+  font-size: 1rem;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  transition: linear 0.2s;
+}
+
+.form-button:hover{
+  background-color: #202020;
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+.form-radio{
+  display: flex;
+  gap: 10rem;
+  align-items: center;
+  justify-content: center;
+}
+
 @media screen and (max-width: 991px) {
   .content {
     flex-direction: column;
