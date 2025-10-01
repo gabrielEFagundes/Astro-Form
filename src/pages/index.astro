@@ -1,6 +1,5 @@
 ---
 import Header from '../components/Header.astro';
-import Sidebar from "../components/Sidebar.astro";
 
 export const prerender = false;
 
@@ -26,20 +25,13 @@ if(Astro.request.method === "POST"){
   <Header title="Welcome" />
   <body>
     <div class="content">
-        <Sidebar selectedItem="devops" />
       <nav class="main">
         <div class="container">
-          <div class="back-nav-container">
-            <a href="/" class="back-nav-button w-inline-block"
-              ><img src="/assets/back.svg" loading="lazy" alt="" class="back-nav-img" />
-              <div>Back</div></a
-            >
-          </div>
           <div class="content-container">
             <h1>Bem-vindo!</h1>
             <section class="items-container">
                 <div class="resouce-items">
-                  <form method="POST" class="forms" action="/login">
+                  <form method="POST" class="forms" action="/form">
                     <label for="username" class="form-label">Qual o seu nome completo?</label>
                     <input type="text" name="username" placeholder="Seu nome completo..." class="form-input">
                     <br><br>

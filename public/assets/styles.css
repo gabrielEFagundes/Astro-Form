@@ -17,6 +17,15 @@ section {
   display: block;
 }
 
+li{
+  list-style: none;
+}
+
+li::before{
+  content: '- ';
+  color: #fff;
+}
+
 a {
   background-color: rgba(0, 0, 0, 0);
   text-decoration: none;

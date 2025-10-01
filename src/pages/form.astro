@@ -1,6 +1,5 @@
 ---
 import Header from "../components/Header.astro";
-import Sidebar from "../components/Sidebar.astro";
 import infos from "../pages/index.astro";
 
 let name = infos.username;
@@ -11,7 +10,6 @@ let name = infos.username;
   <Header title="Form" />
   <body>
     <div class="content">
-      <Sidebar selectedItem="home" />
       <nav class="main">
         <div class="container">
           <main class="fold-content-container">
@@ -52,6 +50,35 @@ let name = infos.username;
                 </div>
 
                 <label for="question5" class="form-label"><b>5- </b>Você acha que a Lei Maria da Penha é necessária?</label>
+                <div class="flex">
+                  <input type="radio" name="question1" value="nao">Sim
+                  <input type="radio" name="question1" value="sim" style="margin-left: 3rem;">Não
+                </div>
+
+                <label for="question6" class="form-label"><b>6- </b>Você concorda que a Lei Maria da Penha deveria ter uma pena maior para praticantes tanto do gênero masculino quanto feminino e essa pena deveria ser equiparada para ambos?</label>
+                <div class="flex">
+                  <input type="radio" name="question1" value="nao">Sim
+                  <input type="radio" name="question1" value="sim" style="margin-left: 3rem;">Não
+                </div>
+
+                <label for="question7" class="form-label"><b>7- </b>Homens que sofrem violência doméstica, também deveriam ter proteção sob a Lei Maria da Penha?</label>
+                <div class="flex">
+                  <input type="radio" name="question1" value="nao">Sim
+                  <input type="radio" name="question1" value="sim" style="margin-left: 3rem;">Não
+                </div>
+
+                <label for="question8" class="form-label"><b>8- </b>Você considera esses comentários ofensivos?</label>
+                <ul>
+                  <li>“Mulher no volante, perigo constante”</li>
+                  <li>“Com essa roupa aí, quer chamar a atenção de quem?”</li>
+                  <li>“Esse assunto não é para mulheres”</li>
+                  <li>“Narração feminina no futebol é muito ruim”</li>
+                  <li>“Lugar de mulher é na cozinha”</li>
+                  <li>“O seu marido deixou você fazer isso?”</li>
+                  <li>“Nossa! Uma mulher mecânica, mais macho que muito homem, hein”</li>
+                  <li>“Oh lá em casa!”</li>
+                </ul>
+                <br>
                 <div class="flex">
                   <input type="radio" name="question1" value="nao">Sim
                   <input type="radio" name="question1" value="sim" style="margin-left: 3rem;">Não
