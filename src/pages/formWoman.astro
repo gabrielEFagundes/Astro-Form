@@ -1,8 +1,28 @@
 ---
 import Header from "../components/Header.astro";
-import infos from "../pages/index.astro";
 
-let name = infos.username;
+export const prerender = false;
+
+export let questions = {};
+
+if(Astro.request.method === "POST"){
+  try{
+    const data = await Astro.request.formData();
+    questions = {
+      qst1: data.get("question1"),
+      qst2: data.get("question2"),
+      qst3: data.get("question3"),
+      qst4: data.get("question4"),
+      qst5: data.get("question5"),
+      qst6: data.get("question6"),
+      qst7: data.get("question7"),
+      qst8: data.get("question8")
+    };
+  }catch (error){
+    console.log(error.message);
+  }
+}
+console.log(questions);
 ---
 
 <!DOCTYPE html>
@@ -14,7 +34,7 @@ let name = infos.username;
         <div class="container">
           <main class="fold-content-container">
             <div class="fold-content">
-              <h1>Seja bem-vindo, {name}<br />Vamos começar?</h1>
+              <h1>Seja bem-vindo, usuário!<br />Vamos começar?</h1>
               <p class="lead">
                 <strong>O que esperar?</strong>
                 <br>
@@ -33,38 +53,38 @@ let name = infos.username;
 
                 <label for="question2" class="form-label"><b>2- </b>Você conhece alguma mulher que já tenha passado por algum tipo de violência?</label>
                 <div class="flex">
-                  <input type="radio" name="question1" value="nao">Sim
-                  <input type="radio" name="question1" value="sim" style="margin-left: 3rem;">Não
+                  <input type="radio" name="question2" value="nao">Sim
+                  <input type="radio" name="question2" value="sim" style="margin-left: 3rem;">Não
                 </div>
 
                 <label for="question3" class="form-label"><b>3- </b>Você considera importante o debate sobre o tema?</label>
                 <div class="flex">
-                  <input type="radio" name="question1" value="nao">Sim
-                  <input type="radio" name="question1" value="sim" style="margin-left: 3rem;">Não
+                  <input type="radio" name="question3" value="nao">Sim
+                  <input type="radio" name="question3" value="sim" style="margin-left: 3rem;">Não
                 </div>
 
                 <label for="question4" class="form-label"><b>4- </b>Você acredita que as leis deveriam ser endurecidas para aqueles que cometem crimes desse aspecto?</label>
                 <div class="flex">
-                  <input type="radio" name="question1" value="nao">Sim
-                  <input type="radio" name="question1" value="sim" style="margin-left: 3rem;">Não
+                  <input type="radio" name="question4" value="nao">Sim
+                  <input type="radio" name="question4" value="sim" style="margin-left: 3rem;">Não
                 </div>
 
                 <label for="question5" class="form-label"><b>5- </b>Você acha que a Lei Maria da Penha é necessária?</label>
                 <div class="flex">
-                  <input type="radio" name="question1" value="nao">Sim
-                  <input type="radio" name="question1" value="sim" style="margin-left: 3rem;">Não
+                  <input type="radio" name="question5" value="nao">Sim
+                  <input type="radio" name="question5" value="sim" style="margin-left: 3rem;">Não
                 </div>
 
                 <label for="question6" class="form-label"><b>6- </b>Você concorda que a Lei Maria da Penha deveria ter uma pena maior para praticantes tanto do gênero masculino quanto feminino e essa pena deveria ser equiparada para ambos?</label>
                 <div class="flex">
-                  <input type="radio" name="question1" value="nao">Sim
-                  <input type="radio" name="question1" value="sim" style="margin-left: 3rem;">Não
+                  <input type="radio" name="question6" value="nao">Sim
+                  <input type="radio" name="question6" value="sim" style="margin-left: 3rem;">Não
                 </div>
 
                 <label for="question7" class="form-label"><b>7- </b>Homens que sofrem violência doméstica, também deveriam ter proteção sob a Lei Maria da Penha?</label>
                 <div class="flex">
-                  <input type="radio" name="question1" value="nao">Sim
-                  <input type="radio" name="question1" value="sim" style="margin-left: 3rem;">Não
+                  <input type="radio" name="question7" value="nao">Sim
+                  <input type="radio" name="question7" value="sim" style="margin-left: 3rem;">Não
                 </div>
 
                 <label for="question8" class="form-label"><b>8- </b>Você considera esses comentários ofensivos?</label>
@@ -80,23 +100,20 @@ let name = infos.username;
                 </ul>
                 <br>
                 <div class="flex">
-                  <input type="radio" name="question1" value="nao">Sim
-                  <input type="radio" name="question1" value="sim" style="margin-left: 3rem;">Não
+                  <input type="radio" name="question8" value="nao">Sim
+                  <input type="radio" name="question8" value="sim" style="margin-left: 3rem;">Não
                 </div>
 
+                <button type="submit" class="form-button">Enviar</button>
               </form>
             </div>
             <sub>Achou um erro?</sub>
             <br>
             <a href="mailto:gabriel_e_fagundes@estudante.sesisenai.org.br">Contate-nos</a>
           </main>
-          <!-- DevOps & Cloud -->
-          <a href="/devops" class="projects-container"></a>
         </div>
       </div>
     </nav>
   </div>
-
-    <!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
   </body>
 </html>

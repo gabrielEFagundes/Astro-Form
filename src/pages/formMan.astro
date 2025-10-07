@@ -1,0 +1,87 @@
+---
+import Header from "../components/Header.astro";
+
+export const prerender = false;
+
+export let questions = {};
+
+if(Astro.request.method === "POST"){
+  try{
+    const data = await Astro.request.formData();
+    questions = {
+      qst1: data.get("question1"),
+      qst2: data.get("question2"),
+      qst3: data.get("question3"),
+      qst4: data.get("question4"),
+      qst5: data.get("question5"),
+      qst6: data.get("question6"),
+      qst7: data.get("question7"),
+      qst8: data.get("question8")
+    };
+  }catch (error){
+    console.log(error.message);
+  }
+}
+console.log(questions);
+---
+
+<!DOCTYPE html>
+<html>
+  <Header title="Form" />
+  <body>
+    <div class="content">
+      <nav class="main">
+        <div class="container">
+          <main class="fold-content-container">
+            <div class="fold-content">
+              <h1>Seja bem-vindo, usuário!<br />Vamos começar?</h1>
+              <p class="lead">
+                <strong>O que esperar?</strong>
+                <br>
+                Você vai responder um formulário sobre um assunto específico, ajudando-nos em uma causa!
+              </p>
+            </div>
+            <hr class="separator">
+            <div>
+              <form method="POST" class="forms">
+
+                <label for="question1" class="form-label"><b>1- </b>Em um relacionamento, você concorda que o cuidado com a casa e os filhos deve ser dividido igualmente, independentemente da jornada de trabalho de cada um?</label>
+                <div class="flex">
+                  <input type="radio" name="question1" value="sim">Sim, é responsabilidade mútua.
+                  <input type="radio" name="question1" value="nao" style="margin-left: 3rem;">Não, a pessoa que trabalha menos fora de casa deve cuidar mais.
+                  <input type="radio" name="question1" value="depende" style="margin-left: 3rem;">Depende da cultura ou acordo do casal.
+                  <input type="radio" name="question1" value="naosabe" style="margin-left: 3rem;">Não sei responder
+                </div>
+
+                <label for="question1" class="form-label"><b>2- </b>Qual sua reação mais comum ao ver um homem se recusando a realizar tarefas domésticas ou de cuidado (como limpar ou cozinhar), alegando que "isso é coisa de mulher"?</label>
+                <div class="flex">
+                  <input type="radio" name="question1" value="corrige">Eu o confronto ou corrijo.
+                  <input type="radio" name="question1" value="ignora" style="margin-left: 3rem;">Eu ignoro, não é problema meu.
+                  <input type="radio" name="question1" value="concorda" style="margin-left: 3rem;">Eu concordo, desde que ele colabore em outras áreas.
+                  <input type="radio" name="question1" value="reflete" style="margin-left: 3rem;">Eu reflito sobre minhas próprias atitudes.
+                  <input type="radio" name="question1" value="naosabe" style="margin-left: 3rem;">Não sei.
+                </div>
+
+                <label for="question1" class="form-label"><b>3- </b>Você já se sentiu pressionado por outros homens (amigos, família) a não demonstrar emoções ou a ser "durão", sob o risco de ser ridicularizado ou chamado de "fraco"?</label>
+                <div class="flex">
+                  <input type="radio" name="question1" value="corrige">Sim, e isso acontece com frequência
+                  <input type="radio" name="question1" value="ignora" style="margin-left: 3rem;">Sim, e acontece de vez quando
+                  <input type="radio" name="question1" value="concorda" style="margin-left: 3rem;">Sim, mas busco sempre ser mais masculino
+                  <input type="radio" name="question1" value="reflete" style="margin-left: 3rem;">Sim, mas nem me importo
+                  <input type="radio" name="question1" value="naosabe" style="margin-left: 3rem;">Não
+                  <!-- change ids -->
+                </div>
+
+                <button type="submit" class="form-button">Enviar</button>
+              </form>
+            </div>
+            <sub>Achou um erro?</sub>
+            <br>
+            <a href="mailto:gabriel_e_fagundes@estudante.sesisenai.org.br">Contate-nos</a>
+          </main>
+        </div>
+      </div>
+    </nav>
+  </div>
+  </body>
+</html>
