@@ -97,7 +97,6 @@ img {
 
 .form{
   display: flex;
-  flex-direction: column;
   gap: 0.2rem;
   color: #e0e0e0;
 }
@@ -674,12 +673,12 @@ p {
 
 @media screen and (max-width: 767px) {
   h1 {
-    font-size: 54px;
+    font-size: 32px;
     line-height: 64px;
   }
 
   h4 {
-    font-size: 32px;
+    font-size: 16px;
     font-weight: 300;
     line-height: 48px;
   }
