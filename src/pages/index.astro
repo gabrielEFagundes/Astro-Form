@@ -1,4 +1,5 @@
 ---
+import { db, Pessoa } from 'astro:db';
 import Header from '../components/Header.astro';
 
 export const prerender = false;
@@ -7,11 +8,15 @@ let infos = {};
 if(Astro.request.method === "POST"){
   try{
     const data = await Astro.request.formData();
-    infos = {
-      name: data.get('name'),
-      age: data.get('age'),
-      gender: data.get('gender')
-    };
+    let nome = data.get('name');
+    let idade = data.get('age');
+    let genero = data.get('gender');
+
+    await db.insert(Pessoa).values({
+      nome: nome,
+      idade: idade,
+      genero: genero
+    });
   }catch(error){
     console.log(error);
   }
@@ -48,13 +53,15 @@ if(Astro.request.method === "POST"){
                         <input type="radio" name="gender" value="woman">
                       </div>
                     </div>
-                    <button type="submit" class="form-button">
-                      <a class="button-link w-inline-block" id="start">
+                    <button type="submit" class="form-button" onclick="loadForm()">
+                      <a class="button-link w-inline-block no-decoration" id="start">
                       Começar formulário
                       </a>
                     </button>
+                    <sub class="text-secondary mx-2 mt-2">Se não carregar, recarregue a página...</sub>
                   </form>
                 </div>
+                <div class="d-flex justify-content-center mt-5" id="load"></div>
             </section>
           </div>
         </div>
@@ -63,24 +70,49 @@ if(Astro.request.method === "POST"){
 
     <script>
       let startForm = document.getElementById('start');
-      
+      let loadContainer = document.getElementById("load");
+
       document.querySelector('form')?.addEventListener("submit", (e) => {
-        e.preventDefault();
+          e.preventDefault();
 
-        const form = e.target;
-        let formData = new FormData(form); // this will not be null
-        let infos = Object.fromEntries(formData);
+          const loadDiv = document.createElement("div");
+          loadDiv.innerHTML = `
+              <div class="spinner-border text-white text-center" role="status">
+                  <span class="visually-hidden">Loading...</span>
+              </div>
+              <p class="mx-3">Estamos carregando o formulário para você...</p>
+          `;
+          if(loadContainer)
+            loadContainer.innerHTML = '';
 
-        if(infos.gender === 'man'){
-          startForm?.setAttribute('href', '/formMan');
+          loadContainer?.appendChild(loadDiv);
+          
+          const form = e.target;
+          let formData = new FormData(form); // nao sera nulo
+          let infos = Object.fromEntries(formData);
+          
+          let targetPath = '';
 
-        }else if(infos.gender === 'woman'){
-          startForm?.setAttribute('href', '/formWoman');
+          if(infos.gender === 'man'){
+              targetPath = '/formMan';
+          } else if(infos.gender === 'woman'){
+              targetPath = '/formWoman';
+          }
 
-        }
+          setTimeout(() => {
+            if(loadContainer)
+              loadContainer.innerHTML = `<p class="mx-3">Formulário carregado! Redirecionando...</p>`;
+              
+            startForm?.setAttribute('href', targetPath);
+
+            if (targetPath) {
+                window.location.href = targetPath;
+            }
+
+          }, 3000);
+
       });
     </script>
-
     <!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
   </body>
 </html>

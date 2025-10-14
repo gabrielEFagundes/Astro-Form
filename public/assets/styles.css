@@ -32,6 +32,15 @@ a {
   color: #fff;
 }
 
+.no-decoration{
+  text-decoration: none;
+  color: #fff;
+}
+
+.gap{
+  gap: 1rem;
+}
+
 a:active,
 a:hover {
   outline: 0;
@@ -97,6 +106,7 @@ img {
 
 .form{
   display: flex;
+  flex-direction: column;
   gap: 0.2rem;
   color: #e0e0e0;
 }
@@ -105,12 +115,16 @@ img {
   font-size: 1.5rem;
   margin-bottom: 1rem;
   line-height: 2.5rem;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 .form-input{
   border-radius: 1rem;
   border: none;
   padding: 1rem;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 .form-button{
