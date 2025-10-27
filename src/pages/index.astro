@@ -1,24 +1,36 @@
 ---
-import { db, Pessoa } from 'astro:db';
+import mysql from 'mysql2/promise';
 import Header from '../components/Header.astro';
 
-export const prerender = false;
-let infos = {};
+export const prerender = false; 
 
-if(Astro.request.method === "POST"){
-  try{
-    const data = await Astro.request.formData();
-    let nome = data.get('name');
-    let idade = data.get('age');
-    let genero = data.get('gender');
+export async function post({ request }) {
+  try {
+    const formData = await request.formData();
+    const name = formData.get('name');
+    const age = formData.get('age');
+    const gender = formData.get('gender');
 
-    await db.insert(Pessoa).values({
-      nome: nome,
-      idade: idade,
-      genero: genero
+    const connection = await mysql.createConnection({
+      host: 'localhost',
+      user: 'seu_usuario',
+      password: 'sua_senha',
+      database: 'seu_banco',
     });
-  }catch(error){
-    console.log(error);
+
+    // Insere os dados no banco
+    const [result] = await connection.execute(
+      'INSERT INTO users (name, age, gender) VALUES (?, ?, ?)',
+      [name, age, gender]
+    );
+
+    // Fecha a conexão
+    await connection.end();
+
+    return new Response('Dados enviados com sucesso!', { status: 200 });
+  } catch (error) {
+    console.error('Erro ao processar o formulário:', error);
+    return new Response('Erro ao enviar os dados.', { status: 500 });
   }
 }
 ---

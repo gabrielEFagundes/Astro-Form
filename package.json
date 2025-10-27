@@ -12,6 +12,7 @@
   "dependencies": {
     "@astrojs/db": "^0.18.0",
     "@astrojs/vercel": "^8.2.9",
-    "astro": "^5.1.5"
+    "astro": "^5.1.5",
+    "mysql2": "^3.15.3"
   }
 }
