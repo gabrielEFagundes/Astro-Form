@@ -1,134 +1,117 @@
 ---
-import mysql from 'mysql2/promise';
 import Header from "../components/Header.astro";
-
-export const prerender = false; 
-
-export async function post({ request }) {
-  try {
-    const formData = await request.formData();
-    const qst1 = formData.get('question1');
-    const qst2 = formData.get('question2');
-    const qst3 = formData.get('question3');
-    const qst4 = formData.get('question4');
-    const qst5 = formData.get('question5');
-    const qst6 = formData.get('question6');
-    const qst7 = formData.get('question7');
-    const qst8 = formData.get('question8');
-
-    const connection = await mysql.createConnection({
-      host: 'localhost',
-      user: 'seu_usuario',
-      password: 'sua_senha',
-      database: 'seu_banco',
-    });
-
-    // Insere os dados no banco
-    const [result] = await connection.execute(
-      'INSERT INTO users (qst1, qst2, qst3, qst4, qst5, qst6, qst7, qst8) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-      [qst1, qst2, qst3, qst4, qst5, qst6, qst7, qst8]
-    );
-
-    // Fecha a conexão
-    await connection.end();
-
-    return new Response('Dados enviados com sucesso!', { status: 200 });
-  } catch (error) {
-    console.error('Erro ao processar o formulário:', error);
-    return new Response('Erro ao enviar os dados.', { status: 500 });
-  }
-}
 ---
 
-<!DOCTYPE html>
 <html>
-  <Header title="Form" />
+  <Header title="Formulário Feminino" />
   <body>
     <div class="content">
-      <nav class="main">
-        <div class="container">
-          <main class="fold-content-container">
-            <div class="fold-content">
-              <h1>Seja bem-vindo, usuário!<br />Vamos começar?</h1>
-              <p class="lead">
-                <strong>O que esperar?</strong>
-                <br>
-                Você vai responder um formulário sobre um assunto específico, ajudando-nos em uma causa!
-              </p>
+      <div class="container">
+        <main class="fold-content-container">
+          <div class="fold-content">
+            <h1>Seja bem-vinda, usuária!<br />Vamos começar?</h1>
+            <p class="lead">
+              <strong>O que esperar?</strong><br>
+              Você vai responder um formulário sobre um assunto importante e ajudar em uma causa!
+            </p>
+          </div>
+
+          <hr class="separator">
+
+          <form id="womanForm">
+            <label><b>1-</b> Você já presenciou ou vivenciou algum ataque de viés misógino?</label>
+            <div class="margin-bottom">
+              <input type="radio" name="question1" value="sim">Sim
+              <input type="radio" name="question1" value="nao" style="margin-left: 3rem;">Não
             </div>
-            <hr class="separator">
-            <div>
-              <form method="POST" class="forms">
 
-                <label for="question1" class="form-label"><b>1- </b>Você já presenciou ou vivenciou algum ataque de viés misógino?</label>
-                <div class="flex gap">
-                  <input type="radio" name="question1" value="nao">Sim
-                  <input type="radio" name="question1" value="sim" style="margin-left: 3rem;">Não
-                </div>
-
-                <label for="question2" class="form-label"><b>2- </b>Você conhece alguma mulher que já tenha passado por algum tipo de violência?</label>
-                <div class="flex gap">
-                  <input type="radio" name="question2" value="nao">Sim
-                  <input type="radio" name="question2" value="sim" style="margin-left: 3rem;">Não
-                </div>
-
-                <label for="question3" class="form-label"><b>3- </b>Você considera importante o debate sobre o tema?</label>
-                <div class="flex gap">
-                  <input type="radio" name="question3" value="nao">Sim
-                  <input type="radio" name="question3" value="sim" style="margin-left: 3rem;">Não
-                </div>
-
-                <label for="question4" class="form-label"><b>4- </b>Você acredita que as leis deveriam ser endurecidas para aqueles que cometem crimes desse aspecto?</label>
-                <div class="flex gap">
-                  <input type="radio" name="question4" value="nao">Sim
-                  <input type="radio" name="question4" value="sim" style="margin-left: 3rem;">Não
-                </div>
-
-                <label for="question5" class="form-label"><b>5- </b>Você acha que a Lei Maria da Penha é necessária?</label>
-                <div class="flex gap">
-                  <input type="radio" name="question5" value="nao">Sim
-                  <input type="radio" name="question5" value="sim" style="margin-left: 3rem;">Não
-                </div>
-
-                <label for="question6" class="form-label"><b>6- </b>Você concorda que a Lei Maria da Penha deveria ter uma pena maior para praticantes tanto do gênero masculino quanto feminino e essa pena deveria ser equiparada para ambos?</label>
-                <div class="flex gap">
-                  <input type="radio" name="question6" value="nao">Sim
-                  <input type="radio" name="question6" value="sim" style="margin-left: 3rem;">Não
-                </div>
-
-                <label for="question7" class="form-label"><b>7- </b>Homens que sofrem violência doméstica, também deveriam ter proteção sob a Lei Maria da Penha?</label>
-                <div class="flex gap">
-                  <input type="radio" name="question7" value="nao">Sim
-                  <input type="radio" name="question7" value="sim" style="margin-left: 3rem;">Não
-                </div>
-
-                <label for="question8" class="form-label"><b>8- </b>Você considera esses comentários ofensivos?</label>
-                <ul>
-                  <li>“Mulher no volante, perigo constante”</li>
-                  <li>“Com essa roupa aí, quer chamar a atenção de quem?”</li>
-                  <li>“Esse assunto não é para mulheres”</li>
-                  <li>“Narração feminina no futebol é muito ruim”</li>
-                  <li>“Lugar de mulher é na cozinha”</li>
-                  <li>“O seu marido deixou você fazer isso?”</li>
-                  <li>“Nossa! Uma mulher mecânica, mais macho que muito homem, hein”</li>
-                  <li>“Oh lá em casa!”</li>
-                </ul>
-                <br>
-                <div class="flex gap">
-                  <input type="radio" name="question8" value="nao">Sim
-                  <input type="radio" name="question8" value="sim" style="margin-left: 3rem;">Não
-                </div>
-
-                <button type="submit" class="form-button">Enviar</button>
-              </form>
+            <label><b>2-</b> Você conhece alguma mulher que já tenha passado por algum tipo de violência?</label>
+            <div class="margin-bottom">
+              <input type="radio" name="question2" value="sim">Sim
+              <input type="radio" name="question2" value="nao" style="margin-left: 3rem;">Não
             </div>
-            <sub>Achou um erro?</sub>
-            <br>
-            <a href="mailto:gabriel_e_fagundes@estudante.sesisenai.org.br">Contate-nos</a>
-          </main>
-        </div>
+
+            <label><b>3-</b> Você considera importante o debate sobre o tema?</label>
+            <div class="margin-bottom">
+              <input type="radio" name="question3" value="sim">Sim
+              <input type="radio" name="question3" value="nao" style="margin-left: 3rem;">Não
+            </div>
+
+            <label><b>4-</b> Você acredita que as leis deveriam ser endurecidas para aqueles que cometem crimes desse aspecto?</label>
+            <div class="margin-bottom">
+              <input type="radio" name="question4" value="sim">Sim
+              <input type="radio" name="question4" value="nao" style="margin-left: 3rem;">Não
+            </div>
+
+            <label><b>5-</b> Você acha que a Lei Maria da Penha é necessária?</label>
+            <div class="margin-bottom">
+              <input type="radio" name="question5" value="sim">Sim
+              <input type="radio" name="question5" value="nao" style="margin-left: 3rem;">Não
+            </div>
+
+            <label><b>6-</b> Você concorda que a Lei Maria da Penha deveria ter uma pena maior e igual para ambos os gêneros?</label>
+            <div class="margin-bottom">
+              <input type="radio" name="question6" value="sim">Sim
+              <input type="radio" name="question6" value="nao" style="margin-left: 3rem;">Não
+            </div>
+
+            <label><b>7-</b> Homens que sofrem violência doméstica também deveriam ter proteção sob a Lei Maria da Penha?</label>
+            <div class="margin-bottom">
+              <input type="radio" name="question7" value="sim">Sim
+              <input type="radio" name="question7" value="nao" style="margin-left: 3rem;">Não
+            </div>
+
+            <label><b>8-</b> Você considera ofensivos os seguintes comentários?</label>
+            <ul>
+              <li>“Mulher no volante, perigo constante”</li>
+              <li>“Com essa roupa aí, quer chamar a atenção de quem?”</li>
+              <li>“Esse assunto não é para mulheres”</li>
+              <li>“Narração feminina no futebol é muito ruim”</li>
+              <li>“Lugar de mulher é na cozinha”</li>
+              <li>“O seu marido deixou você fazer isso?”</li>
+              <li>“Nossa! Uma mulher mecânica, mais macho que muito homem, hein”</li>
+              <li>“Oh lá em casa!”</li>
+            </ul>
+            <div class="margin-bottom">
+              <input type="radio" name="question8" value="sim">Sim
+              <input type="radio" name="question8" value="nao" style="margin-left: 3rem;">Não
+            </div>
+
+            <button type="submit" class="form-button">Enviar</button>
+          </form>
+
+          <div id="load"></div>
+
+          <sub>Achou um erro? <a href="mailto:gabriel_e_fagundes@estudante.sesisenai.org.br">Contate-nos</a></sub>
+        </main>
       </div>
-    </nav>
-  </div>
+    </div>
+
+    <script>
+      const form = document.getElementById('womanForm');
+      const loadContainer = document.getElementById('load');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        loadContainer.innerHTML = '📤 Enviando respostas...';
+
+        const formData = new FormData(form);
+        const response = await fetch('/api/formWoman', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          loadContainer.innerHTML = '✅ Respostas enviadas com sucesso!';
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 2000);
+        } else {
+          loadContainer.innerHTML = '❌ Erro: ' + result.error;
+        }
+      });
+    </script>
   </body>
 </html>

@@ -1,130 +1,83 @@
 ---
-import mysql from 'mysql2/promise';
 import Header from '../components/Header.astro';
-
-export const prerender = false; 
-
-export async function post({ request }) {
-  try {
-    const formData = await request.formData();
-    const name = formData.get('name');
-    const age = formData.get('age');
-    const gender = formData.get('gender');
-
-    const connection = await mysql.createConnection({
-      host: 'localhost',
-      user: 'seu_usuario',
-      password: 'sua_senha',
-      database: 'seu_banco',
-    });
-
-    // Insere os dados no banco
-    const [result] = await connection.execute(
-      'INSERT INTO users (name, age, gender) VALUES (?, ?, ?)',
-      [name, age, gender]
-    );
-
-    // Fecha a conexão
-    await connection.end();
-
-    return new Response('Dados enviados com sucesso!', { status: 200 });
-  } catch (error) {
-    console.error('Erro ao processar o formulário:', error);
-    return new Response('Erro ao enviar os dados.', { status: 500 });
-  }
-}
 ---
 
-<!DOCTYPE html>
-<html
->
-  <Header title="Welcome" />
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Formulário</title>
+  </head>
   <body>
-    <div class="content">
-      <nav class="main">
-        <div class="container">
-          <div class="content-container">
-            <h1>Bem-vindo!</h1>
-            <section class="items-container">
-                <div class="resouce-items">
-                  <form method="POST" class="form">
-                    <label for="username" class="form-label">Qual o seu nome completo?</label>
-                    <input type="text" name="username" placeholder="Seu nome completo..." class="form-input" required>
-                    <br>
-                    <label for="age" class="form-label">Qual a sua idade?</label>
-                    <input type="number" name="username" placeholder="Sua idade..." class="form-input" required>
-                    <br><br>
-                    <p class="form-label">Qual o seu gênero?</p>
-                    <div class="form-radio">
-                      <div>
-                        <label for="man">Homem</label>
-                        <input type="radio" name="gender" value="man" required>
-                      </div>
-                      <div>
-                        <label for="woman">Mulher</label>
-                        <input type="radio" name="gender" value="woman">
-                      </div>
-                    </div>
-                    <button type="submit" class="form-button" onclick="loadForm()">
-                      <a class="button-link w-inline-block no-decoration" id="start">
-                      Começar formulário
-                      </a>
-                    </button>
-                    <sub class="text-secondary mx-2 mt-2">Se não carregar, recarregue a página...</sub>
-                  </form>
-                </div>
-                <div class="d-flex justify-content-center mt-5" id="load"></div>
-            </section>
+    <Header title="Formulário" />
+
+    <h1 class="margin-right">Bem-vindo!</h1>
+
+    <form id="userForm" method="POST">
+      <div>
+        <label for="name" class="form-label">Qual o seu nome completo?</label>
+        <input type="text" name="name" placeholder="Seu nome completo..." class="form-input" required>
+      </div>
+
+      <div>
+        <label for="age" class="form-label">Qual a sua idade? (Importante)</label>
+        <input type="number" name="age" placeholder="Sua idade..." class="form-input" required>
+      </div>
+
+      <div>
+        <p class="form-label">Qual o seu gênero?</p>
+        <div class="form-radio">
+          <div>
+            <input type="radio" id="man" name="gender" value="man" required>
+            <label for="man">Homem</label>
+          </div>
+          <div>
+            <input type="radio" id="woman" name="gender" value="woman">
+            <label for="woman">Mulher</label>
           </div>
         </div>
-      </nav>
-    </div>
+      </div>
+
+      <button type="submit" class="form-button">Começar formulário</button>
+      <sub>Se não carregar, recarregue a página...</sub>
+    </form>
+
+    <div id="load"></div>
 
     <script>
-      let startForm = document.getElementById('start');
-      let loadContainer = document.getElementById("load");
+      const form = document.getElementById('userForm');
+      const loadContainer = document.getElementById('load');
 
-      document.querySelector('form')?.addEventListener("submit", (e) => {
-          e.preventDefault();
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        loadContainer.textContent = 'Enviando dados...';
 
-          const loadDiv = document.createElement("div");
-          loadDiv.innerHTML = `
-              <div class="spinner-border text-white text-center" role="status">
-                  <span class="visually-hidden">Loading...</span>
-              </div>
-              <p class="mx-3">Estamos carregando o formulário para você...</p>
-          `;
-          if(loadContainer)
-            loadContainer.innerHTML = '';
+        const formData = new FormData(form);
+        console.log('Dados enviados:', Object.fromEntries(formData));
 
-          loadContainer?.appendChild(loadDiv);
-          
-          const form = e.target;
-          let formData = new FormData(form); // nao sera nulo
-          let infos = Object.fromEntries(formData);
-          
-          let targetPath = '';
+        try {
+          const response = await fetch('/api/form', {
+            method: 'POST',
+            body: formData
+          });
 
-          if(infos.gender === 'man'){
-              targetPath = '/formMan';
-          } else if(infos.gender === 'woman'){
-              targetPath = '/formWoman';
+          const result = await response.json();
+          console.log(result);
+
+          if (result.success) {
+            loadContainer.textContent = '✅ Dados enviados com sucesso!';
+            setTimeout(() => {
+              const infos = Object.fromEntries(formData);
+              const path = infos.gender === 'man' ? '/formMan' : '/formWoman';
+              window.location.href = path;
+            }, 2000);
+          } else {
+            loadContainer.textContent = '❌ Erro ao enviar dados: ' + result.error;
           }
-
-          setTimeout(() => {
-            if(loadContainer)
-              loadContainer.innerHTML = `<p class="mx-3">Formulário carregado! Redirecionando...</p>`;
-              
-            startForm?.setAttribute('href', targetPath);
-
-            if (targetPath) {
-                window.location.href = targetPath;
-            }
-
-          }, 3000);
-
+        } catch (err) {
+          console.error('Erro no fetch:', err);
+          loadContainer.textContent = '❌ Erro ao enviar dados.';
+        }
       });
     </script>
-    <!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
   </body>
 </html>

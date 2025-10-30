@@ -1,145 +1,125 @@
 ---
-import mysql from 'mysql2/promise';
 import Header from "../components/Header.astro";
-
-export const prerender = false; 
-
-export async function post({ request }) {
-  try {
-    const formData = await request.formData();
-    const qst1 = formData.get('question1');
-    const qst2 = formData.get('question2');
-    const qst3 = formData.get('question3');
-    const qst4 = formData.get('question4');
-    const qst5 = formData.get('question5');
-    const qst6 = formData.get('question6');
-    const qst7 = formData.get('question7');
-    const qst8 = formData.get('question8');
-    const qst9 = formData.get('question9');
-
-    const connection = await mysql.createConnection({
-      host: 'localhost',
-      user: 'seu_usuario',
-      password: 'sua_senha',
-      database: 'seu_banco',
-    });
-
-    // Insere os dados no banco
-    const [result] = await connection.execute(
-      'INSERT INTO users (qst1, qst2, qst3, qst4, qst5, qst6, qst7, qst8, qst9) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [qst1, qst2, qst3, qst4, qst5, qst6, qst7, qst8, qst9]
-    );
-
-    // Fecha a conexão
-    await connection.end();
-
-    return new Response('Dados enviados com sucesso!', { status: 200 });
-  } catch (error) {
-    console.error('Erro ao processar o formulário:', error);
-    return new Response('Erro ao enviar os dados.', { status: 500 });
-  }
-}
 ---
 
-<!DOCTYPE html>
 <html>
-  <Header title="Form" />
+  <Header title="Formulário Masculino" />
   <body>
     <div class="content">
-      <nav class="main">
-        <div class="container">
-          <main class="fold-content-container">
-            <div class="fold-content">
-              <h1>Seja bem-vindo, usuário!<br />Vamos começar?</h1>
-              <p class="lead">
-                <strong>O que esperar?</strong>
-                <br>
-                Você vai responder um formulário sobre um assunto específico, ajudando-nos em uma causa!
-              </p>
-            </div>
-            <hr class="separator">
-            <div>
-              <form method="POST" class="form">
+      <div class="container">
+        <main class="fold-content-container">
+          <div class="fold-content">
+            <h1>Seja bem-vindo, usuário!<br />Vamos começar?</h1>
+            <p class="lead">
+              <strong>O que esperar?</strong><br>
+              Você vai responder um formulário sobre um assunto específico, ajudando-nos em uma causa!
+            </p>
+          </div>
 
-                <label for="question1" class="form-label"><b>1- </b>Em um relacionamento, você concorda que o cuidado com a casa e os filhos deve ser dividido igualmente, independentemente da jornada de trabalho de cada um?</label>
-                <div class="flex gap">
-                  <input type="radio" name="question1" value="sim">Sim, é responsabilidade mútua.
-                  <input type="radio" name="question1" value="nao" style="margin-left: 1rem;">Não, a pessoa que trabalha menos fora de casa deve cuidar mais.
-                  <input type="radio" name="question1" value="depende" style="margin-left: 1rem;">Depende da cultura ou acordo do casal.
-                  <input type="radio" name="question1" value="naoSabe" style="margin-left: 1rem;">Não sei responder
-                </div>
+          <hr class="separator">
 
-                <label for="question2" class="form-label"><b>2- </b>Qual sua reação mais comum ao ver um homem se recusando a realizar tarefas domésticas ou de cuidado (como limpar ou cozinhar), alegando que "isso é coisa de mulher"?</label>
-                <div class="flex gap">
-                  <input type="radio" name="question2" value="corrige">Eu o confronto ou corrijo.
-                  <input type="radio" name="question2" value="ignora" style="margin-left: 1rem;">Eu ignoro, não é problema meu.
-                  <input type="radio" name="question2" value="concorda" style="margin-left: 1rem;">Eu concordo, desde que ele colabore em outras áreas.
-                  <input type="radio" name="question2" value="naoSabe" style="margin-left: 1rem;">Não sei.
-                </div>
+          <div>
+            <form id="manForm">
+              <label for="question1"><b>1- </b>Em um relacionamento, você concorda que o cuidado com a casa e os filhos deve ser dividido igualmente, independentemente da jornada de trabalho de cada um?</label>
+              <div class="margin-bottom">
+                <input type="radio" name="question1" value="sim">Sim
+                <input type="radio" name="question1" value="nao" style="margin-left: 1rem;">Não
+                <input type="radio" name="question1" value="talvez" style="margin-left: 1rem;">Talvez
+              </div>
 
-                <label for="question3" class="form-label"><b>3- </b>Você já se sentiu pressionado por outros homens (amigos, família) a não demonstrar emoções ou a ser "durão", sob o risco de ser ridicularizado ou chamado de "fraco"?</label>
-                <div class="flex gap">
-                  <input type="radio" name="question3" value="frequentemente">Sim, e isso acontece com frequência.
-                  <input type="radio" name="question3" value="buscaMasculinidade" style="margin-left: 1rem;">Sim, mas busco sempre ser mais masculino
-                  <input type="radio" name="question3" value="naoImporta" style="margin-left: 1rem;">Sim, mas nem me importo
-                  <input type="radio" name="question3" value="nao" style="margin-left: 1rem;">Não
-                </div>
+              <label for="question2"><b>2- </b>Qual sua reação mais comum ao ver um homem se recusando a realizar tarefas domésticas ou de cuidado (como limpar ou cozinhar), alegando que "isso é coisa de mulher"?</label>
+              <div class="margin-bottom">
+                <input type="radio" name="question2" value="sim">Sim
+                <input type="radio" name="question2" value="nao" style="margin-left: 1rem;">Não
+                <input type="radio" name="question2" value="talvez" style="margin-left: 1rem;">Talvez
+              </div>
 
-                <label for="question4" class="form-label"><b>4- </b>Em uma briga de casal, você acredita que o homem tem o dever de "manter a calma" e evitar que a mulher "perca o controle", agindo como o lado mais racional?</label>
-                <div class="flex gap">
-                  <input type="radio" name="question4" value="sim">Sim, esse é o papel do homem.
-                  <input type="radio" name="question4" value="nao" style="margin-left: 1rem;">Não, a responsabilidade emocional é igual para ambos.
-                  <input type="radio" name="question4" value="naoSabe" style="margin-left: 1rem;">Não sei
-                </div>
+              <label for="question3"><b>3- </b>Você já se sentiu pressionado por outros homens (amigos, família) a não demonstrar emoções ou a ser "durão", sob o risco de ser ridicularizado ou chamado de "fraco"?</label>
+              <div class="margin-bottom">
+                <input type="radio" name="question3" value="sim">Sim
+                <input type="radio" name="question3" value="nao" style="margin-left: 1rem;">Não
+                <input type="radio" name="question3" value="talvez" style="margin-left: 1rem;">Talvez
+              </div>
 
-                <label for="question5" class="form-label"><b>5- </b>Quando uma mulher relata ter sofrido machismo ou assédio, qual é a sua reação imediata?</label>
-                <div class="flex gap">
-                  <input type="radio" name="question5" value="apoia">Eu a apoio e pergunto como posso ajudar.
-                  <input type="radio" name="question5" value="questiona" style="margin-left: 1rem;">Eu questiono os fatos para ter certeza de que não houve um mal-entendido.
-                  <input type="radio" name="question5" value="evita" style="margin-left: 1rem;">Eu evito me envolver e não comento.
-                  <input type="radio" name="question5" value="fazPiada" style="margin-left: 1rem;">Eu começo a rir e fazer piadas
-                </div>
+              <label for="question4"><b>4- </b>Em uma briga de casal, você acredita que o homem tem o dever de "manter a calma" e evitar que a mulher "perca o controle", agindo como o lado mais racional?</label>
+              <div class="margin-bottom">
+                <input type="radio" name="question4" value="sim">Sim
+                <input type="radio" name="question4" value="nao" style="margin-left: 1rem;">Não
+                <input type="radio" name="question4" value="talvez" style="margin-left: 1rem;">Talvez
+              </div>
 
-                <label for="question6" class="form-label"><b>6- </b>Você acredita que o machismo afeta negativamente a vida dos próprios homens (por exemplo, restringindo a expressão de sentimentos ou limitando a criação dos filhos)?</label>
-                <div class="flex gap">
-                  <input type="radio" name="question6" value="sim">Sim, o machismo é prejudicial para todos.
-                  <input type="radio" name="question6" value="nao" style="margin-left: 1rem;">Não, o machismo prejudica principalmente as mulheres.
-                  <input type="radio" name="question6" value="achaNatural" style="margin-left: 1rem;">Não, o machismo é natural e ncessário para a sociedade
-                  <input type="radio" name="question6" value="naoSabe" style="margin-left: 1rem;">Não sei
-                </div>
+              <label for="question5"><b>5- </b>Quando uma mulher relata ter sofrido machismo ou assédio, você acredita que deve apoiá-la e levar o caso a sério?</label>
+              <div class="margin-bottom">
+                <input type="radio" name="question5" value="sim">Sim
+                <input type="radio" name="question5" value="nao" style="margin-left: 1rem;">Não
+                <input type="radio" name="question5" value="talvez" style="margin-left: 1rem;">Talvez
+              </div>
 
-                <label for="question7" class="form-label"><b>7- </b>Quando você tá numa roda de amigos e rola aquela piada "clássica" que desvaloriza a mulher (tipo, "só pode ser mulher..."), qual é a sua reação mais comum?</label>
-                <div class="flex gap">
-                  <input type="radio" name="question7" value="riJunto">Rio junto, afinal, é só uma piada
-                  <input type="radio" name="question7" value="naoAchaGraca" style="margin-left: 1rem;">Digo que não tem graça ou mudo de assunto
-                  <input type="radio" name="question7" value="naoImporta" style="margin-left: 1rem;">Nem me importo
-                  <input type="radio" name="question7" value="fezAPiada" style="margin-left: 1rem;">Provavelmente fui eu que fiz a piada
-                </div>
+              <label for="question6"><b>6- </b>Você acredita que o machismo afeta negativamente a vida dos próprios homens?</label>
+              <div class="margin-bottom">
+                <input type="radio" name="question6" value="sim">Sim
+                <input type="radio" name="question6" value="nao" style="margin-left: 1rem;">Não
+                <input type="radio" name="question6" value="talvez" style="margin-left: 1rem;">Talvez
+              </div>
 
-                <label for="question8" class="form-label"><b>8- </b>Você se considera uma pessoa machista?</label>
-                <div class="flex gap">
-                  <input type="radio" name="question8" value="sim">Sim
-                  <input type="radio" name="question8" value="nao" style="margin-left: 1rem;">Não
-                </div>
+              <label for="question7"><b>7- </b>Quando você está numa roda de amigos e alguém faz uma piada machista, você considera errado rir dessas piadas?</label>
+              <div class="margin-bottom">
+                <input type="radio" name="question7" value="sim">Sim
+                <input type="radio" name="question7" value="nao" style="margin-left: 1rem;">Não
+                <input type="radio" name="question7" value="talvez" style="margin-left: 1rem;">Talvez
+              </div>
 
-                <label for="question9" class="form-label"><b>9- </b>Você faz comentários ou atitudes consideradas machistas?</label>
-                <div class="flex gap">
-                  <input type="radio" name="question9" value="frequentemente">Sim, com frequência
-                  <input type="radio" name="question9" value="asVezes" style="margin-left: 1rem;">Sim, de vez em quando
-                  <input type="radio" name="question9" value="raramente" style="margin-left: 1rem;">Raramente
-                  <input type="radio" name="question9" value="nunca" style="margin-left: 1rem;">Nunca
-                </div>
+              <label for="question8"><b>8- </b>Você se considera uma pessoa machista?</label>
+              <div class="margin-bottom">
+                <input type="radio" name="question8" value="sim">Sim
+                <input type="radio" name="question8" value="nao" style="margin-left: 1rem;">Não
+                <input type="radio" name="question8" value="talvez" style="margin-left: 1rem;">Talvez
+              </div>
 
-                <button type="submit" class="form-button">Enviar</button>
-              </form>
-            </div>
-            <sub>Achou um erro?</sub>
-            <br>
-            <a href="mailto:gabriel_e_fagundes@estudante.sesisenai.org.br">Contate-nos</a>
-          </main>
-        </div>
+              <label for="question9"><b>9- </b>Você faz comentários ou atitudes consideradas machistas?</label>
+              <div class="margin-bottom ">
+                <input type="radio" name="question9" value="sim">Sim
+                <input type="radio" name="question9" value="nao" style="margin-left: 1rem;">Não
+                <input type="radio" name="question9" value="talvez" style="margin-left: 1rem;">Talvez
+              </div>
+
+              <button type="submit" class="form-button">Enviar</button>
+            </form>
+          </div>
+
+          <div id="load"></div>
+
+          <sub>Achou um erro? <a href="mailto:gabriel_e_fagundes@estudante.sesisenai.org.br">Contate-nos</a></sub>
+        </main>
       </div>
-    </nav>
-  </div>
+    </div>
+
+    <script>
+      const form = document.getElementById('manForm');
+      const loadContainer = document.getElementById('load');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        loadContainer.innerHTML = '📤 Enviando dados...';
+
+        const formData = new FormData(form);
+
+        const response = await fetch('/api/formMan', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          loadContainer.innerHTML = '✅ Respostas enviadas com sucesso!';
+          setTimeout(() => {
+            window.location.href = '/'; // redireciona pra home se quiser
+          }, 2000);
+        } else {
+          loadContainer.innerHTML = '❌ Erro: ' + result.error;
+        }
+      });
+    </script>
   </body>
 </html>
